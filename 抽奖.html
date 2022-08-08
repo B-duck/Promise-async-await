@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link crossorigin='anonymous' href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 知识点：.addEventListener 元素绑定事件监听，用于向指定的元素添加事件监听
+        第一个参数event：指事件的类型（如’click’,‘mousedown’）
+        第二个参数function：事件触发后调用的函数 -->
+
+        <!-- 对象有两个样式，btn 显示对象为按钮，btn-primary指定按钮为基本样式按钮，颜色为蓝色 -->
+        <button class="btn btn-primary" id="btn">点击抽奖</button>
+    </div>
+    <script>
+        // 获取元素对象
+        const btn = document.getElementById('btn');
+        function rand(m,n){
+            // 取随机数，再取结果向上取整
+            return Math.ceil(Math.random() * (n-m+1) + m-1);
+        }
+
+        // 点击按钮，2s后中奖，30%的中奖概率，若中奖，弹出恭喜。未中奖，再接再厉
+
+        btn.addEventListener('click', function(){
+        // 实例化，需要接收一个函数类型的参数，和两个形参(随便取名都可以)
+        // 两个形参 是函数类型的数据
+        // 异步成功 调用resolve，失败 resolve
+        // 包裹异步操作 
+        const p = new Promise((resolve,reject) =>{
+            setTimeout(() =>{
+                // 获取1-100的一个随机数
+                let n = rand(1,100)
+                if(n<=30){
+                    // 将得到的随机数 n 在成功/失败时出入弹窗
+                    // 成功
+                    resolve(n); // 调用后将promise对象 p 的状态设置为成功
+                }
+                else{
+                    // 失败
+                    reject(n)
+                }
+            },1000)
+        });
+        // 调用then方法，执行resolve()，reject()
+        // 需要接收两个参数，都是函数类型的值，这里用了箭头函数
+        // 第一个函数 成功时的回调
+        // 第二个函数 失败时的回调
+        // 输出随机数
+        p.then((value) =>{
+            alert('恭喜' + value);
+        },(reason) =>{
+            alert('再接再厉' + reason)
+        })
+    })
+    </script>
+</body>
+</html>
