@@ -15,9 +15,29 @@
     <script>
         function sendAJAX(url){
             const p = new Promise((reslove,reject) =>{
-                
+                const xhr = new XMLHttpRequest();
+                // 知识点：请求结果输出为 json 格式
+                xhr.responseType = 'json'
+                xhr.open('GET',url)
+                xhr.send()
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4){
+                        if(xhr.status>=200&&xhr.status<300){
+                            reslove(xhr.response)
+                        }else{
+                            reject(xhr.status)
+                        }
+                    }
+                }
             })
         }
+
+        // 发送请求
+        sendAJAX('https://api.apiopen.top/getJoke').then((value) =>{
+            console.log(value);
+        },(reason) =>{
+            console.warn(reason);
+        })
     </script>
 </body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let p = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('OK');
+            }, 1000);
+        });
+        // then 的链式调用
+        p.then(value => {
+            return new Promise((resolve, reject) => {
+                resolve("success");
+            });
+        }).then(value => {
+            // 需要等一秒看到结果
+            // 返回结果是promise对象，但返回的promise对象无返回值 无return
+            console.log(value);
+        }).then(value => {
+            // 这里结果是undefined
+            // 是个成功的结果，但返回的是undefined
+            console.log(value);
+        })
+    </script>
+</body>
+</html>
